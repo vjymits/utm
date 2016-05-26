@@ -1,0 +1,50 @@
+Performing system checks...
+
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_DIRS.
+
+System check identified 1 issue (0 silenced).
+May 26, 2016 - 12:00:00
+Django version 1.8.5, using settings 'UTM.settings'
+Starting development server at http://127.0.0.1:8089/
+Quit the server with CTRL-BREAK.
+[26/May/2016 12:00:05] "GET /ut/utmgt/testsuites/2/ HTTP/1.1" 200 19227
+[26/May/2016 12:00:06] "GET /static/admin/js/jquery.min.js HTTP/1.1" 404 103
+[26/May/2016 12:00:06] "GET /static/admin/js/actions.min.js HTTP/1.1" 404 104
+[26/May/2016 12:00:06] "GET /static/admin/js/inlines.min.js HTTP/1.1" 404 104
+[26/May/2016 12:00:06] "GET /ut/jsi18n/ HTTP/1.1" 200 2372
+[26/May/2016 12:00:07] "GET /ut/ HTTP/1.1" 200 3196
+[26/May/2016 12:00:10] "GET / HTTP/1.1" 404 74
+[26/May/2016 12:00:20] "GET /ut/ HTTP/1.1" 200 3196
+[26/May/2016 12:00:21] "GET /ut/ HTTP/1.1" 200 3196
+[26/May/2016 12:02:49] "GET /admin/ HTTP/1.1" 404 80
+[26/May/2016 12:02:55] "GET /ut HTTP/1.1" 301 0
+[26/May/2016 12:02:55] "GET /ut/ HTTP/1.1" 200 3196
+Unhandled exception in thread started by <function wrapper at 0x030158F0>
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\utils\autoreload.py", line 229, in wrapper
+    fn(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\core\management\commands\runserver.py", line 107, in inner_run
+    autoreload.raise_last_exception()
+  File "C:\Python27\lib\site-packages\django\utils\autoreload.py", line 252, in raise_last_exception
+    six.reraise(*_exception)
+  File "C:\Python27\lib\site-packages\django\utils\autoreload.py", line 229, in wrapper
+    fn(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\__init__.py", line 18, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "C:\Python27\lib\site-packages\django\apps\registry.py", line 115, in populate
+    app_config.ready()
+  File "C:\Python27\lib\site-packages\django\contrib\admin\apps.py", line 22, in ready
+    self.module.autodiscover()
+  File "C:\Python27\lib\site-packages\django\contrib\admin\__init__.py", line 24, in autodiscover
+    autodiscover_modules('admin', register_to=site)
+  File "C:\Python27\lib\site-packages\django\utils\module_loading.py", line 74, in autodiscover_modules
+    import_module('%s.%s' % (app_config.name, module_to_search))
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\my\myWork\UTM\utmgt\admin.py", line 30
+    reportFile = obj.name+
+                         ^
+SyntaxError: invalid syntax
