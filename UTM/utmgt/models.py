@@ -7,7 +7,7 @@ class TestSuites(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=256, blank=True, null=True)
     reviewUri = models.URLField(max_length=256, blank=True, null=True)
-    report = models.URLField(max_length=256, blank=True, null=True)
+    report = models.FileField(max_length=256, blank=True, null=True)
     submitter = models.ForeignKey(User, null=True, blank=True)
     created = models.BigIntegerField(blank=True, null=True)
     class Meta:

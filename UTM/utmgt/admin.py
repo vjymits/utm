@@ -2,6 +2,7 @@ from django.contrib import admin
 from models import TestCases, TestRuns, TestSuites
 from django.contrib.admin import AdminSite
 from django.utils.translation import ugettext_lazy
+from reporting import ReportTestSuites
 
 import time
 
@@ -19,7 +20,7 @@ class TestCaseInline(admin.TabularInline):
 
 class TestSuitesAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'reviewUri']
-    list_display = ['name', 'description', 'reviewUri']
+    list_display = ['name', 'description', 'reviewUri', 'report']
     inlines= [TestCaseInline]
 
 
@@ -27,8 +28,14 @@ class TestSuitesAdmin(admin.ModelAdmin):
         if getattr(obj, 'submitter', None) is None:
             obj.submitter = request.user
         obj.created = time.time() * 1000
-        reportFile = obj.name+
+        reportFile = obj.name+str(obj.created)+".pdf"
+        obj.report = reportFile
         obj.save()
+        print "report file: "+str(reportFile)
+        pdfRep = ReportTestSuites(reportFile)
+        pdfRep.start()
+
+
 
 class TestCasesAdmin(admin.ModelAdmin):
     list_display = fields = ['testSuite', 'testCase']
