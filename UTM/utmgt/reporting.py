@@ -36,9 +36,12 @@ class ReportTestSuites(threading.Thread):
         doc.pagesize = landscape(A4)
         elements = []
         data = [columns]
+        #pie_data={'passed': 0,'retest': 0, 'blocked':0 , 'failed':0 , 'untested':0 , 'retest':0}
+        pie_data={}
         for testCase in testCases:
             row =[str(testCase.id), str(testCase.testCase), testCase.result, str(testCase.output)]
             data.append(row)
+            pie_data[testCase.result]= pie_data.get(testCase.result, 0)+1
         style = TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
                        ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
                        ('VALIGN',(0,0),(0,-1),'TOP'),
@@ -57,14 +60,14 @@ class ReportTestSuites(threading.Thread):
         t=Table(data2)
         t.setStyle(style)
         #Send the data and build the file
-        drw= self.Pie()
+        drw= self.Pie(pie_data)
         elements.append(drw)
         elements.append(t)
         doc.build(elements)
         return name
 
     class Pie(_DrawingEditorMixin,Drawing):
-        def __init__(self, data, categories, width=400,height=200):
+        def __init__(self, pie_data, width=400,height=200):
             apply(Drawing.__init__,(self,width,height))
             self._add(self,Pie(),name='chart',validate=None,desc=None)
             self.chart.x                    = 20
@@ -81,8 +84,14 @@ class ReportTestSuites(threading.Thread):
             self.legend.boxAnchor           = 'se'
             self.legend.subCols[1].align    = 'right'
             # these data can be read from external sources
-            data                = (9, 7, 6, 4, 2.5, 1.0)
-            categories          = ('A','B','C','D','E','F',)
+            data=[]
+            categories=[]
+            for d in pie_data.keys():
+                categories.append(d)
+                data.append(pie_data.get(d, 0))
+            #data                = (9, 7, 6, 4, 2.5, 1.0)
+            #categories          = ('A','B','C','D','E','F',)
+
             colors              = [PCMYKColor(0,0,0,x) for x in (100,80,60,40,20,5)]
             self.chart.data     = data
             self.chart.labels   = map(str, self.chart.data)
