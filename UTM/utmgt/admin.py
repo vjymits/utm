@@ -33,7 +33,7 @@ class TestSuitesAdmin(admin.ModelAdmin):
         obj.save()
         print "report file: "+str(reportFile)
         pdfRep = ReportTestSuites(reportFile)
-        pdfRep.start()
+        pdfRep.run()
 
 
 
