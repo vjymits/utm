@@ -1,16 +1,18 @@
 __author__ = 'sharvija'
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, inch, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin
 from reportlab.graphics.charts.piecharts import Pie
 from reportlab.graphics.charts.legends import Legend
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import cm, inch
 from reportlab.lib.colors import Color, PCMYKColor
 from models import TestSuites, TestCases
 from UTM.settings import MEDIA_ROOT
 import threading
+import time, datetime
+
 
 
 class ReportTestSuites(threading.Thread):
@@ -29,7 +31,7 @@ class ReportTestSuites(threading.Thread):
         if testSuite is None:
             return
         testCases = TestCases.objects.filter(testSuite=testSuite)
-        columns = ['TestCaseId', 'TestCase', 'result', 'attachment']
+        columns = ['TestCaseId', 'TestCase', 'Result', 'Attachment']
         name = MEDIA_ROOT+'/'+self.reportName
         doc = SimpleDocTemplate(name, pagesize=A4, rightMargin=30,leftMargin=30, topMargin=30,
                                 bottomMargin=18)
@@ -39,7 +41,7 @@ class ReportTestSuites(threading.Thread):
         #pie_data={'passed': 0,'retest': 0, 'blocked':0 , 'failed':0 , 'untested':0 , 'retest':0}
         pie_data={}
         for testCase in testCases:
-            row =[str(testCase.id), str(testCase.testCase), testCase.result, str(testCase.output)]
+            row =[str(testCase.id), str(testCase.testCase), testCase.result,str(testCase.output)]
             data.append(row)
             pie_data[testCase.result]= pie_data.get(testCase.result, 0)+1
         style = TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
@@ -62,9 +64,13 @@ class ReportTestSuites(threading.Thread):
         #Send the data and build the file
         drw= self.Pie(pie_data)
         elements.append(drw)
+
+        elements.append(Spacer(1, 48))
         elements.append(t)
         doc.build(elements)
         return name
+
+
 
     class Pie(_DrawingEditorMixin,Drawing):
         def __init__(self, pie_data, width=400,height=200):
@@ -92,7 +98,7 @@ class ReportTestSuites(threading.Thread):
             #data                = (9, 7, 6, 4, 2.5, 1.0)
             #categories          = ('A','B','C','D','E','F',)
 
-            colors              = [PCMYKColor(0,0,0,x) for x in (100,80,60,40,20,5)]
+            colors              = [PCMYKColor(0,1,550,x) for x in (1030,2080,3060,440,4520,2225)]
             self.chart.data     = data
             self.chart.labels   = map(str, self.chart.data)
             self.legend.colorNamePairs = zip(colors, categories)

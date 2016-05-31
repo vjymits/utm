@@ -7,3 +7,4 @@ RESULTCASES = (
         ('retest', 'Retest'),
         ('blocked', 'Blocked'),
     )
+
